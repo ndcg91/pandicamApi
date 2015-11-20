@@ -1,11 +1,11 @@
 var express 	= require('express');
-var app 	= express();
+var app 		= express();
 var bodyParser 	= require('body-parser');
 var mongoose	= require('mongoose');
-var jwt		= require('jsonwebtoken');
-var morgan	= require('morgan');
-var User 	= require('./modules/user.js');
-var Group 	= require('./modules/groups.js');
+var jwt			= require('jsonwebtoken');
+var morgan		= require('morgan');
+var User 		= require('./modules/user.js');
+var Group 		= require('./modules/groups.js');
 
 mongoose.connect('mongodb://express:express@ds055574.mongolab.com:55574/testndcg9105');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -249,6 +249,16 @@ function checkGroupAuth(req,res,next){
 app.use('/api',router);
 app.listen(port);
 console.log('api started at port' + port);
-console.log(' get => /api/users to list users');
-console.log(' post => /api/users to create user, params username ,password and free bool');
+console.log(' get => /api/users to list users, (authorization required) only for testing, we will change this to make sure only admin can check this');
+console.log(' post => /api/users to create user, params username ,password, free bool and email');
+
+console.log('post=> /api/login to enter site, params username and password, will return user info. Most important is user.token\n' +
+
+'post => api/newGroup : (authorization required) will create a group and return a group token. Params groupName, password, active, pending\n' +
+
+'get => /api/getGroups (authorization required)\n return the belongsTo association of the user \n' +
+
+'post => api/group/addUser (authorization required) , add user to group. params token grouptoken on header user \n' +
+
+'post => /api/group/addPic (group authorization required) params pic. Add a pic to the group. The group is catched ussing the header autorization api key of the group');
 
