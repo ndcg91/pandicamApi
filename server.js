@@ -170,11 +170,12 @@ router.route("/group/addUser")
 				User.findOne({username:userToAdd},function(err,user){
 					if (err) res.send(err)
 					if (user != null){
-						user.update({$addToSet: {belongsTo:{as:"client",to:group}}},function(err){
-							if (err) res.send(err);
-						});
 						group.update({$addToSet: {users: {username:user.username, joinedAs:"client"}}},function(err){
 							if (err) res.send(err);
+							user.update({$addToSet: {belongsTo:{as:"client",to:group}}},function(err, user){
+								if (err) res.send(err);
+								res.send({message:"updated", results:user});
+							});
 						});
 					}
 				});
@@ -203,8 +204,9 @@ router.route("/group/addPic")
 							 Group.findOne({token:groupToken},function(err,group){
 								if (err) res.send(err);
 								if (group != null){
-									group.update({$addToSet: {pictures:{pic: picToAdd, timeStamp:new Date() }}},function(err){
+									group.update({$addToSet: {pictures:{pic: picToAdd, timeStamp:new Date() }}},function(err,group){
 																if (err) res.send(err);
+																res.send({message:"updated", results:group});
 															});
 								}
 								else{
