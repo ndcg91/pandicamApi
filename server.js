@@ -172,9 +172,9 @@ router.route("/group/addUser")
 					if (user != null){
 						group.update({$addToSet: {users: {username:user.username, joinedAs:"client"}}},function(err){
 							if (err) res.send(err);
-							user.update({$addToSet: {belongsTo:{as:"client",to:group}}},function(err, userupdated){
+							user.update({$addToSet: {belongsTo:{as:"client",to:group}}},function(err){
 								if (err) res.send(err);
-								res.send({message:"updated", results:userupdated});
+								res.send({message:"updated", results:user});
 							});
 						});
 					}
