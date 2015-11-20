@@ -158,8 +158,11 @@ router.route("/group/addUser")
 		var userToken = req.token;
 		var groupToken = req.groupToken;
 		var userToAdd = req.body.user;
-		User.findOne({token:userToken},function(err){
-        	        if (err) res.send(err); 
+		User.findOne({token:userToken},function(err, user){
+        	        if (err) res.send(err);
+					if (user == null){
+						res.send(403);
+					}
 	        });
 		Group.findOne({token:groupToken},function(err,group){
 			if (err) res.send(err);
@@ -191,8 +194,11 @@ router.route("/group/addPic")
                 var userToken = req.token;
                 var groupToken = req.groupToken;
                 var picToAdd = req.body.pic;
-                User.findOne({token:userToken},function(err){
+                User.findOne({token:userToken},function(err,user){
                         if (err) res.send(err);
+						if (user == nul){
+							res.send(403);
+						}
                 });
                 Group.findOne({token:groupToken},function(err,group){
                         if (err) res.send(err);
@@ -210,6 +216,8 @@ router.route("/group/addPic")
 
         });
 
+		
+		
 function checkAuth(req,res,next){
 	var usertoken;
 	var tokenFromHeader = req.headers["authorization"];
