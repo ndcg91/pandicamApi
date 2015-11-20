@@ -170,7 +170,7 @@ router.route("/group/addUser")
 				User.findOne({username:userToAdd},function(err,user){
 					if (err) res.send(err)
 					if (user != null){
-						group.update({$addToSet: {users: {username:user.username, joinedAs:"client"}}},function(err){
+						group.update({$addToSet: {users: {username:user.username, joinedAs:"client"}}},function(err,user){
 							if (err) res.send(err);
 							user.update({$addToSet: {belongsTo:{as:"client",to:group}}},function(err, user){
 								if (err) res.send(err);
