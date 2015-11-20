@@ -199,21 +199,20 @@ router.route("/group/addPic")
 						if (user == nul){
 							res.send(403);
 						}
+						else{
+							 Group.findOne({token:groupToken},function(err,group){
+								if (err) res.send(err);
+								if (group != null){
+									group.update({$addToSet: {pictures:{pic: picToAdd, timeStamp:new Date() }}},function(err){
+																if (err) res.send(err);
+															});
+								}
+								else{
+									res.send(403);
+								}
+							});
+						}
                 });
-                Group.findOne({token:groupToken},function(err,group){
-                        if (err) res.send(err);
-                        if (group != null){
-				group.update({$addToSet: {pictures:{pic: picToAdd, timeStamp:new Date() }}},function(err){
-                                                        if (err) res.send(err);
-                                                });
-                        }
-                        else{
-                                res.send(403);
-                        }
-                });
-
-
-
         });
 
 		
